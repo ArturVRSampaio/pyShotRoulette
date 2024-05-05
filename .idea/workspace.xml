@@ -5,10 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ef648142-2725-4da9-8a78-c21a92209778" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/pyShotRoulette.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/pyShotRoulette.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
-    <list id="e99edd6e-8fcb-4009-abef-e358becbdccf" name="Changes by Rodolpho" comment="" />
+    <list id="e99edd6e-8fcb-4009-abef-e358becbdccf" name="Changes by Rodolpho" comment="">
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -16,6 +19,32 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/main.py">
+      <ranges>
+        <range start1="0" end1="0" start2="0" end2="4" changelist="ef648142-2725-4da9-8a78-c21a92209778" />
+        <range start1="4" end1="4" start2="8" end2="11" changelist="ef648142-2725-4da9-8a78-c21a92209778" />
+        <range start1="22" end1="22" start2="29" end2="30" changelist="ef648142-2725-4da9-8a78-c21a92209778" />
+        <range start1="23" end1="23" start2="31" end2="32" changelist="e99edd6e-8fcb-4009-abef-e358becbdccf" />
+        <range start1="35" end1="38" start2="44" end2="49" changelist="e99edd6e-8fcb-4009-abef-e358becbdccf" />
+        <range start1="46" end1="47" start2="57" end2="61" changelist="ef648142-2725-4da9-8a78-c21a92209778" />
+        <range start1="56" end1="57" start2="70" end2="71" changelist="e99edd6e-8fcb-4009-abef-e358becbdccf" />
+        <range start1="75" end1="75" start2="89" end2="92" changelist="e99edd6e-8fcb-4009-abef-e358becbdccf" />
+        <range start1="79" end1="80" start2="96" end2="97" changelist="e99edd6e-8fcb-4009-abef-e358becbdccf" />
+        <range start1="83" end1="84" start2="100" end2="101" changelist="e99edd6e-8fcb-4009-abef-e358becbdccf" />
+        <range start1="85" end1="85" start2="102" end2="103" changelist="e99edd6e-8fcb-4009-abef-e358becbdccf" />
+        <range start1="86" end1="86" start2="104" end2="130" changelist="ef648142-2725-4da9-8a78-c21a92209778" />
+        <range start1="88" end1="88" start2="132" end2="134" changelist="ef648142-2725-4da9-8a78-c21a92209778" />
+        <range start1="92" end1="97" start2="138" end2="139" changelist="ef648142-2725-4da9-8a78-c21a92209778" />
+        <range start1="99" end1="104" start2="141" end2="145" changelist="ef648142-2725-4da9-8a78-c21a92209778" />
+        <range start1="105" end1="111" start2="146" end2="148" changelist="ef648142-2725-4da9-8a78-c21a92209778" />
+        <range start1="112" end1="112" start2="149" end2="152" changelist="ef648142-2725-4da9-8a78-c21a92209778" />
+        <range start1="120" end1="120" start2="160" end2="163" changelist="ef648142-2725-4da9-8a78-c21a92209778" />
+        <range start1="138" end1="139" start2="181" end2="186" changelist="ef648142-2725-4da9-8a78-c21a92209778" />
+        <range start1="142" end1="142" start2="189" end2="190" changelist="ef648142-2725-4da9-8a78-c21a92209778" />
+      </ranges>
+    </file>
   </component>
   <component name="ProjectColorInfo"><![CDATA[{
   "associatedIndex": 2
@@ -32,7 +61,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
     "last_opened_file_path": "/home/bypass/PycharmProjects/SnakeBot",
-    "settings.editor.selected.configurable": "editor.preferences.fonts.default"
+    "settings.editor.selected.configurable": "preferences.pathVariables"
   }
 }]]></component>
   <component name="RunManager">
@@ -52,7 +81,7 @@
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="EMULATE_TERMINAL" value="true" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
       <option name="INPUT_FILE" value="" />
@@ -76,5 +105,10 @@
       <updated>1714867333456</updated>
     </task>
     <servers />
+  </component>
+  <component name="TerminalProjectNonSharedOptionsProvider">
+    <envs>
+      <env key="xterm-color" value="TERM" />
+    </envs>
   </component>
 </project>
