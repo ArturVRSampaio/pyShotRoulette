@@ -99,6 +99,7 @@ class Game:
         print("-" * 20 + '\n')
 
     def print_round(self):
+        print('\n')
         print("I   II  III ")
         print("    " * (self.round - 1) + "X" + "    " * (3 - self.round))
         self.print_separator()
@@ -201,9 +202,11 @@ class Game:
                     print(colorama.Fore.GREEN)
                     art.tprint(f"{player.name} wins", space=2, font="small")
                     print(colorama.Style.RESET_ALL)
-                    time.sleep(0.5)
+                    time.sleep(0.7)
                     clear()
-                    time.sleep(0.5)
+                    print('\n' * 6)
+                    time.sleep(0.7)
+                    clear()
 
 
 if __name__ == '__main__':

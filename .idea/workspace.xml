@@ -8,9 +8,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
-    <list id="e99edd6e-8fcb-4009-abef-e358becbdccf" name="Changes by Rodolpho" comment="">
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-    </list>
+    <list id="e99edd6e-8fcb-4009-abef-e358becbdccf" name="Changes by Rodolpho" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,30 +16,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/main.py">
-      <ranges>
-        <range start1="52" end1="53" start2="52" end2="53" changelist="ef648142-2725-4da9-8a78-c21a92209778" />
-        <range start1="59" end1="60" start2="59" end2="60" changelist="e99edd6e-8fcb-4009-abef-e358becbdccf" />
-        <range start1="61" end1="62" start2="61" end2="62" changelist="e99edd6e-8fcb-4009-abef-e358becbdccf" />
-        <range start1="67" end1="67" start2="67" end2="69" changelist="e99edd6e-8fcb-4009-abef-e358becbdccf" />
-        <range start1="68" end1="69" start2="70" end2="71" changelist="ef648142-2725-4da9-8a78-c21a92209778" />
-        <range start1="71" end1="71" start2="73" end2="74" changelist="e99edd6e-8fcb-4009-abef-e358becbdccf" />
-        <range start1="78" end1="78" start2="81" end2="83" changelist="e99edd6e-8fcb-4009-abef-e358becbdccf" />
-        <range start1="83" end1="84" start2="88" end2="88" changelist="e99edd6e-8fcb-4009-abef-e358becbdccf" />
-        <range start1="88" end1="88" start2="92" end2="94" changelist="e99edd6e-8fcb-4009-abef-e358becbdccf" />
-        <range start1="99" end1="101" start2="105" end2="108" changelist="e99edd6e-8fcb-4009-abef-e358becbdccf" />
-        <range start1="130" end1="130" start2="137" end2="143" changelist="e99edd6e-8fcb-4009-abef-e358becbdccf" />
-        <range start1="157" end1="158" start2="170" end2="172" changelist="ef648142-2725-4da9-8a78-c21a92209778" />
-        <range start1="159" end1="159" start2="173" end2="176" changelist="e99edd6e-8fcb-4009-abef-e358becbdccf" />
-        <range start1="164" end1="164" start2="181" end2="183" changelist="ef648142-2725-4da9-8a78-c21a92209778" />
-        <range start1="174" end1="178" start2="193" end2="194" changelist="ef648142-2725-4da9-8a78-c21a92209778" />
-        <range start1="180" end1="181" start2="196" end2="197" changelist="e99edd6e-8fcb-4009-abef-e358becbdccf" />
-        <range start1="182" end1="187" start2="198" end2="205" changelist="ef648142-2725-4da9-8a78-c21a92209778" />
-        <range start1="191" end1="193" start2="209" end2="211" changelist="ef648142-2725-4da9-8a78-c21a92209778" />
-      </ranges>
-    </file>
   </component>
   <component name="ProjectColorInfo"><![CDATA[{
   "associatedIndex": 2
