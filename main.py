@@ -4,10 +4,12 @@ import time
 import art
 from random import randrange as rand, shuffle
 
-possible_bullets = ['blank', 'live']
+possible_bullets = ["blank", "live"]
+
 
 def clear():
     os.system("cls" if os.name == "nt" else "clear")
+
 
 class Shotgun:
     magazine_tube = []
@@ -25,10 +27,10 @@ class Shotgun:
         bullet = self.pump_magazine()
         shot_damage = self.damage
         self._un_saw()
-        if bullet.type == 'live':
-            print(colorama.Fore.RED +'BANG!' + colorama.Style.RESET_ALL)
+        if bullet.type == "live":
+            print(colorama.Fore.RED + "BANG!" + colorama.Style.RESET_ALL)
             return shot_damage
-        print(colorama.Fore.WHITE + '*click*' + colorama.Style.RESET_ALL)
+        print(colorama.Fore.WHITE + "*click*" + colorama.Style.RESET_ALL)
         return 0
 
     def saw_off(self):
@@ -38,14 +40,15 @@ class Shotgun:
         self.damage = 1
 
 
-class Bullet():
-    type = ''
+class Bullet:
+    type = ""
 
-    def __init__(self, type = None):
+    def __init__(self, type=None):
         if not type:
             self.type = possible_bullets[rand(0, 2)]
         else:
             self.type = type
+
 
 class Human_strategy:
     def decide(self):
@@ -55,10 +58,10 @@ class Human_strategy:
 
 class IA_strategy:
     def decide(self):
-        print(f'IA player grabs the shotgun with malicious intent')
+        print(f"IA player grabs the shotgun with malicious intent")
         time.sleep(1)
         who = rand(1, 3)
-        print(f'{who}')
+        print(f"{who}")
         return who
 
 
@@ -82,6 +85,7 @@ class Player:
     def set_number(self, number):
         self.number = number
 
+
 class Game:
     round = 1
     last_round = 3
@@ -95,38 +99,36 @@ class Game:
         self.shotgun = Shotgun()
 
     def print_separator(self):
-        print("-" * 20 + '\n')
+        print("-" * 20 + "\n")
 
     def print_round(self):
-        print('\n')
+        print("\n")
         print("I   II  III ")
         print("    " * (self.round - 1) + "X" + "    " * (3 - self.round))
         self.print_separator()
 
     def print_player_health(self):
-        for player in sorted(self.players, key= lambda player:
-               player.number):
+        for player in sorted(self.players, key=lambda player: player.number):
             print(f"{player.name}({player.number})")
             print(player.life)
         self.print_separator()
 
     def print_bullets(self, bullets: list):
         shuffle(bullets)
-        bullet_types_string = ''
+        bullet_types_string = ""
         for bullet in bullets:
-            if bullet.type == 'blank':
+            if bullet.type == "blank":
                 bullet_types_string += colorama.Fore.WHITE
             else:
                 bullet_types_string += colorama.Fore.RED
             bullet_types_string += f"*{bullet.type}* "
-        print('bullets')
+        print("bullets")
         print(bullet_types_string)
         print(colorama.Style.RESET_ALL)
 
     def reset_player_lives(self, amount):
         for player in self.players:
             player.life = amount
-
 
     def reset_game(self):
         self.round += 1
@@ -148,15 +150,14 @@ class Game:
         time.sleep(2)
         clear()
 
-        while (self.round < self.last_round):
+        while self.round < self.last_round:
             if not self.has_minimum_live_players():
                 self.winner()
                 self.reset_game()
 
-
             shotgun_rounds_amount = rand(0, 7)
 
-            bullets = [Bullet('live'), Bullet('blank')]
+            bullets = [Bullet("live"), Bullet("blank")]
             for new_bullet in range(shotgun_rounds_amount):
                 bullets.append(Bullet())
             self.print_round()
@@ -165,8 +166,9 @@ class Game:
             time.sleep(3)
             clear()
 
-
-            while self.has_minimum_live_players() and len(self.shotgun.magazine_tube) > 0:
+            while (
+                self.has_minimum_live_players() and len(self.shotgun.magazine_tube) > 0
+            ):
                 self.print_player_health()
                 player = self.get_turn_player()
                 player_to_shoot = self.get_player_by_number(player.decide())
@@ -203,15 +205,15 @@ class Game:
                     print(colorama.Style.RESET_ALL)
                     time.sleep(0.7)
                     clear()
-                    print('\n' * 6)
+                    print("\n" * 6)
                     time.sleep(0.7)
                     clear()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     clear()
-    player1 = Player(Human_strategy, 'humman')
-    player2 = Player(IA_strategy, 'IA')
+    player1 = Player(Human_strategy, "humman")
+    player2 = Player(IA_strategy, "IA")
 
     game = Game([player1, player2])
 
