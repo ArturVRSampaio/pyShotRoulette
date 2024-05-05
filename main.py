@@ -8,7 +8,10 @@ possible_bullets = ["blank", "live"]
 
 
 def clear():
-    os.system("cls" if os.name == "nt" else "clear")
+    command = "clear"
+    if os.name in ("nt", "dos"):
+        command = "cls"
+    os.system(command)
 
 
 class Shotgun:
@@ -50,13 +53,12 @@ class Bullet:
             self.type = type
 
 
-class Human_strategy:
+class HumanStrategy:
     def decide(self):
-
         return int(input("Player number to shoot?\n"))
 
 
-class IA_strategy:
+class IaStrategy:
     def decide(self):
         print(f"IA player grabs the shotgun with malicious intent")
         time.sleep(1)
@@ -109,7 +111,7 @@ class Game:
 
     def print_player_health(self):
         for player in sorted(self.players, key=lambda player: player.number):
-            print(f"{player.name}({player.number})")
+            print(f"{player.name} ({player.number})")
             print(player.life)
         self.print_separator()
 
@@ -132,7 +134,6 @@ class Game:
 
     def reset_game(self):
         self.round += 1
-        self.turn = 0
         self.reset_player_lives(self.round * 2)
         self.print_round()
 
@@ -143,7 +144,7 @@ class Game:
         for player in self.players:
             if player.number == number:
                 return player
-        raise Exception("Eta porra")
+        raise Exception("Player not found")
 
     def play(self):
         self.print_round()
@@ -167,7 +168,7 @@ class Game:
             clear()
 
             while (
-                self.has_minimum_live_players() and len(self.shotgun.magazine_tube) > 0
+                    self.has_minimum_live_players() and len(self.shotgun.magazine_tube) > 0
             ):
                 self.print_player_health()
                 player = self.get_turn_player()
@@ -190,7 +191,6 @@ class Game:
         for player in self.players:
             if player.life > 0:
                 alive_players += 1
-
         return alive_players >= 2
 
     def get_turn_player(self) -> Player:
@@ -205,15 +205,15 @@ class Game:
                     print(colorama.Style.RESET_ALL)
                     time.sleep(0.7)
                     clear()
-                    print("\n" * 6)
+                    print("\n" * 7)
                     time.sleep(0.7)
                     clear()
 
 
 if __name__ == "__main__":
     clear()
-    player1 = Player(Human_strategy, "humman")
-    player2 = Player(IA_strategy, "IA")
+    player1 = Player(HumanStrategy, "humman")
+    player2 = Player(IaStrategy, "IA")
 
     game = Game([player1, player2])
 
