@@ -14,6 +14,22 @@ def clear():
     os.system(command)
 
 
+def print_shotgun():
+    print(',_______________________________________       ')
+    print('|_________________,----------._ [____]  ""-,__  __....-----=====')
+    print('               (_(||||||||||||)___________/   ""                |')
+    print('                                        [ ))"`,  _,--....___    |')
+    print('                                               `/           """"')
+
+
+def print_sawed_shotgun():
+    print(',________________________       ')
+    print('|__,----------._ [____]  ""-,__  __....-----=====')
+    print('(_(||||||||||||)___________/   ""                |')
+    print('                         [ ))"`,  _,--....___    |')
+    print('                                `/           """"')
+
+
 class Shotgun:
     magazine_tube = []
     damage = 1
@@ -171,6 +187,7 @@ class Game:
                     self.has_minimum_live_players() and len(self.shotgun.magazine_tube) > 0
             ):
                 self.print_player_health()
+                print_shotgun()
                 player = self.get_turn_player()
                 player_to_shoot = self.get_player_by_number(player.decide())
 
