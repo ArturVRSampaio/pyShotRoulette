@@ -7,7 +7,6 @@ from random import randrange as rand, shuffle
 possible_bullets = ['blank', 'live']
 
 def clear():
-    # print('\n' *100)
     os.system("cls" if os.name == "nt" else "clear")
 
 class Shotgun:
@@ -149,7 +148,7 @@ class Game:
         time.sleep(2)
         clear()
 
-        while (self.round <= self.last_round):
+        while (self.round < self.last_round):
             if not self.has_minimum_live_players():
                 self.winner()
                 self.reset_game()
