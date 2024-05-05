@@ -50,25 +50,29 @@ class Bullet():
 
 class Human_strategy:
     def decide(self):
-        return int(input("Player 1 or 2?\n")) - 1
+
+        return int(input("Player number to shoot?\n"))
 
 
 class IA_strategy:
     def decide(self):
         print(f'IA player grabs the shotgun with malicious intent')
         time.sleep(1)
-        who = rand(0, 2)
-        print(f'{who + 1}')
-        return rand(0, 2)
+        who = rand(1, 3)
+        print(f'{who}')
+        return who
 
 
 class Player:
     life = 0
     strategy = None
+    name = None
+    number = None
 
-    def __init__(self, strategy):
+    def __init__(self, strategy, name: str):
         self.strategy = strategy
         self.life = 2
+        self.name = name
 
     def decide(self):
         return self.strategy.decide(self)
@@ -76,16 +80,19 @@ class Player:
     def remove_life(self, amount: int):
         self.life -= amount
 
+    def set_number(self, number):
+        self.number = number
 
 class Game:
     round = 1
     last_round = 3
     players = []
-    turn = 0
     shotgun = None
 
     def __init__(self, players: list):
         self.players = players
+        for number, player in enumerate(players):
+            player.set_number(number + 1)
         self.shotgun = Shotgun()
 
     def print_separator(self):
@@ -97,8 +104,9 @@ class Game:
         self.print_separator()
 
     def print_player_health(self):
-        for key, player in enumerate(self.players):
-            print(f"player {key + 1}")
+        for player in sorted(self.players, key= lambda player:
+               player.number):
+            print(f"{player.name}({player.number})")
             print(player.life)
         self.print_separator()
 
@@ -129,6 +137,12 @@ class Game:
         time.sleep(2)
         clear()
 
+    def get_player_by_number(self, number):
+        for player in self.players:
+            if player.number == number:
+                return player
+        raise Exception("Eta porra")
+
     def play(self):
         self.print_round()
         time.sleep(2)
@@ -155,13 +169,19 @@ class Game:
             while self.has_minimum_live_players() and len(self.shotgun.magazine_tube) > 0:
                 self.print_player_health()
                 player = self.get_turn_player()
-                player_to_shoot = self.players[player.decide()]
+                player_to_shoot = self.get_player_by_number(player.decide())
+
                 damage = self.shotgun.shot()
+
+                if not (player_to_shoot == player and damage == 0):
+                    self.next_player()
 
                 player_to_shoot.remove_life(damage)
                 time.sleep(2)
                 clear()
 
+    def next_player(self):
+        self.players.append(self.players.pop(0))
 
     def has_minimum_live_players(self) -> bool:
         alive_players = 0
@@ -172,25 +192,24 @@ class Game:
         return alive_players >= 2
 
     def get_turn_player(self) -> Player:
-        n_players = len(self.players)
-        turn_player = self.players[self.turn]
-        self.turn = (self.turn + 1) % n_players
-        return turn_player
+        return self.players[0]
 
     def winner(self):
-        for key, player in enumerate(self.players):
+        for player in self.players:
             if player.life > 0:
-                print(colorama.Fore.GREEN)
-                art.tprint(f"player {key + 1} wins", space=2)
-                print(colorama.Style.RESET_ALL)
-                time.sleep(2)
-                clear()
+                for i in range(0, 3):
+                    print(colorama.Fore.GREEN)
+                    art.tprint(f"{player.name} wins", space=2, font="small")
+                    print(colorama.Style.RESET_ALL)
+                    time.sleep(0.5)
+                    clear()
+                    time.sleep(0.5)
 
 
 if __name__ == '__main__':
     clear()
-    player1 = Player(Human_strategy)
-    player2 = Player(IA_strategy)
+    player1 = Player(Human_strategy, 'humman')
+    player2 = Player(IA_strategy, 'IA')
 
     game = Game([player1, player2])
 
