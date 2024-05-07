@@ -142,7 +142,8 @@ class Game:
     def reset_game(self):
         self.round += 1
         self.reset_player_lives(self.round * 2)
-        self.print_round()
+        if self.round <= self.last_round:
+            self.print_round()
 
         time.sleep(2)
         clear_screen()
