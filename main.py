@@ -3,31 +3,22 @@ import colorama
 import time
 import art
 from random import randrange as rand, shuffle
+from helpers import clear_screen, load_ascii_art
 
 possible_bullets = ["blank", "live"]
 
-
-def clear():
-    command = "clear"
-    if os.name in ("nt", "dos"):
-        command = "cls"
-    os.system(command)
+shotgun_art = load_ascii_art("assets/shotgun.txt")
 
 
 def print_shotgun():
-    print(',_______________________________________       ')
-    print('|_________________,----------._ [____]  ""-,__  __....-----=====')
-    print('               (_(||||||||||||)___________/   ""                |')
-    print('                                        [ ))"`,  _,--....___    |')
-    print('                                               `/           """"')
+    print(shotgun_art)
+
+
+sawed_shotgun_art = load_ascii_art("assets/sawed_shotgun.txt")
 
 
 def print_sawed_shotgun():
-    print(',________________________       ')
-    print('|__,----------._ [____]  ""-,__  __....-----=====')
-    print('(_(||||||||||||)___________/   ""                |')
-    print('                         [ ))"`,  _,--....___    |')
-    print('                                `/           """"')
+    print(sawed_shotgun_art)
 
 
 class Shotgun:
@@ -154,7 +145,7 @@ class Game:
         self.print_round()
 
         time.sleep(2)
-        clear()
+        clear_screen()
 
     def get_player_by_number(self, number):
         for player in self.players:
@@ -165,26 +156,22 @@ class Game:
     def play(self):
         self.print_round()
         time.sleep(2)
-        clear()
+        clear_screen()
 
-        while self.round < self.last_round:
-            if not self.has_minimum_live_players():
-                self.winner()
-                self.reset_game()
-
+        while self.round <= self.last_round:
             shotgun_rounds_amount = rand(0, 7)
 
             bullets = [Bullet("live"), Bullet("blank")]
-            for new_bullet in range(shotgun_rounds_amount):
+            for _ in range(shotgun_rounds_amount):
                 bullets.append(Bullet())
             self.print_round()
             self.print_bullets(bullets)
             self.shotgun.load(bullets)
             time.sleep(3)
-            clear()
+            clear_screen()
 
             while (
-                    self.has_minimum_live_players() and len(self.shotgun.magazine_tube) > 0
+                self.has_minimum_live_players() and len(self.shotgun.magazine_tube) > 0
             ):
                 self.print_player_health()
                 print_shotgun()
@@ -198,7 +185,11 @@ class Game:
 
                 player_to_shoot.remove_life(damage)
                 time.sleep(2)
-                clear()
+                clear_screen()
+
+            if not self.has_minimum_live_players():
+                self.winner()
+                self.reset_game()
 
     def next_player(self):
         self.players.append(self.players.pop(0))
@@ -221,14 +212,14 @@ class Game:
                     art.tprint(f"{player.name} wins", space=2, font="small")
                     print(colorama.Style.RESET_ALL)
                     time.sleep(0.7)
-                    clear()
+                    clear_screen()
                     print("\n" * 7)
                     time.sleep(0.7)
-                    clear()
+                    clear_screen()
 
 
 if __name__ == "__main__":
-    clear()
+    clear_screen()
     player1 = Player(HumanStrategy, "humman")
     player2 = Player(IaStrategy, "IA")
 
