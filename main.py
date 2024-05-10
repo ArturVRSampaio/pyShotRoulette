@@ -1,107 +1,17 @@
-import os
 import colorama
 import time
 import art
 from random import randrange as rand, shuffle
-from helpers import clear_screen, load_ascii_art
-
-possible_bullets = ["blank", "live"]
-
-shotgun_art = load_ascii_art("assets/shotgun.txt")
-
-
-def print_shotgun():
-    print(shotgun_art)
-
-
-sawed_shotgun_art = load_ascii_art("assets/sawed_shotgun.txt")
-
-
-def print_sawed_shotgun():
-    print(sawed_shotgun_art)
-
-
-class Shotgun:
-    magazine_tube = []
-    damage = 1
-
-    def load(self, bullets: list):
-        shuffle(bullets)
-        self.magazine_tube = bullets
-
-    def pump_magazine(self):
-        bullet = self.magazine_tube.pop(0)
-        return bullet
-
-    def shot(self) -> int:
-        bullet = self.pump_magazine()
-        shot_damage = self.damage
-        self._un_saw()
-        if bullet.type == "live":
-            print(colorama.Fore.RED + "BANG!" + colorama.Style.RESET_ALL)
-            return shot_damage
-        print(colorama.Fore.WHITE + "*click*" + colorama.Style.RESET_ALL)
-        return 0
-
-    def saw_off(self):
-        self.damage = 2
-
-    def _un_saw(self):
-        self.damage = 1
-
-
-class Bullet:
-    type = ""
-
-    def __init__(self, type=None):
-        if not type:
-            self.type = possible_bullets[rand(0, 2)]
-        else:
-            self.type = type
-
-
-class HumanStrategy:
-    def decide(self):
-        return int(input("Player number to shoot?\n"))
-
-
-class IaStrategy:
-    def decide(self):
-        print(f"IA player grabs the shotgun with malicious intent")
-        time.sleep(1)
-        who = rand(1, 3)
-        print(f"{who}")
-        return who
-
-
-class Player:
-    life = 0
-    strategy = None
-    name = None
-    number = None
-
-    def __init__(self, strategy, name: str):
-        self.strategy = strategy
-        self.life = 2
-        self.name = name
-
-    def decide(self):
-        return self.strategy.decide(self)
-
-    def remove_life(self, amount: int):
-        self.life -= amount
-
-    def set_number(self, number):
-        self.number = number
+from helpers import clear_screen
+from player import HumanStrategy, IaStrategy, Player
+from shotgun import Bullet, Shotgun
 
 
 class Game:
-    round = 1
-    last_round = 3
-    players = []
-    shotgun = None
-
     def __init__(self, players: list):
+        self.round = 1
+        self.max_life_round = 2
+        self.last_round = 3
         self.players = players
         for number, player in enumerate(players):
             player.set_number(number + 1)
@@ -135,13 +45,21 @@ class Game:
         print(bullet_types_string)
         print(colorama.Style.RESET_ALL)
 
+    def print_items(self):
+        for player in self.players:
+            print(f"{player.name} inventory")
+            print("-" * 180)
+            player.inventory.print_items()
+            print("-" * 180)
+
     def reset_player_lives(self, amount):
         for player in self.players:
             player.life = amount
 
     def reset_game(self):
         self.round += 1
-        self.reset_player_lives(self.round * 2)
+        self.max_life_round = self.round * 2
+        self.reset_player_lives(self.max_life_round)
         if self.round <= self.last_round:
             self.print_round()
 
@@ -162,6 +80,12 @@ class Game:
         while self.round <= self.last_round:
             shotgun_rounds_amount = rand(0, 7)
 
+            for player in self.players:
+                for _ in range(0, 2):
+                    player.inventory.add_item()
+                print(f"{player.name} inventory")
+                player.inventory.print_items()
+
             bullets = [Bullet("live"), Bullet("blank")]
             for _ in range(shotgun_rounds_amount):
                 bullets.append(Bullet())
@@ -175,9 +99,19 @@ class Game:
                 self.has_minimum_live_players() and len(self.shotgun.magazine_tube) > 0
             ):
                 self.print_player_health()
-                print_shotgun()
+                self.shotgun.print_shotgun()
                 player = self.get_turn_player()
-                player_to_shoot = self.get_player_by_number(player.decide())
+
+                if player.cuffed:
+                    player.un_cuff()
+                    self.next_player()
+                    continue
+
+                player_to_shoot_number = player.decide(game)
+                if player_to_shoot_number == None:
+                    self.next_player()
+                    continue
+                player_to_shoot = self.get_player_by_number(player_to_shoot_number)
 
                 damage = self.shotgun.shot()
 
@@ -221,8 +155,8 @@ class Game:
 
 if __name__ == "__main__":
     clear_screen()
-    player1 = Player(HumanStrategy, "humman")
-    player2 = Player(IaStrategy, "IA")
+    player1 = Player(HumanStrategy(), "Human")
+    player2 = Player(IaStrategy(), "IA")
 
     game = Game([player1, player2])
 
