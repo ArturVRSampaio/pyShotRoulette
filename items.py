@@ -5,6 +5,7 @@ import colorama
 from random import randrange as rand
 
 from helpers import load_ascii_art_as_lines
+from shotgun import Bullet
 
 
 # Validates if file has 20 lines and 40 characters per line
@@ -35,16 +36,21 @@ class Item:
 
 
 def adrenaline_effect(game, player):
-    for player in game.players:
-        print(f"{player.name} inventory:")
-        player.inventory.print_items()
-        time.sleep(1)
+    print(f"{player.name} takes a deep breath and injects the suspicious needle")
+    game.print_items()
+    time.sleep(1)
     player_number = player.strategy.decide_other_player(player)
     player_to_get_item = game.get_player_by_number(player_number)
+    print(f"the adrenaline rush lets him grab on of {player_to_get_item.name}'s items")
+    time.sleep(1)
     if player_to_get_item.inventory.item_count() == 0:
+        print(f"but {player_to_get_item.name} has no items to be stolen...")
         return False
-    item_number = player.strategy.decide_item(player_to_get_item)
-    if player_to_get_item.inventory[item_number] == "adrenaline":
+    item_number = player.strategy.decide_item(game, player_to_get_item)
+    if player_to_get_item.inventory.item_names[item_number] == "adrenaline":
+        print(
+            f"but fumbles and doesn't manage to grab {player_to_get_item.name}'s adrenaline shot..."
+        )
         return False
     return player_to_get_item.inventory.use_item(item_number, game, player)
 
@@ -63,15 +69,16 @@ def beer_effect(game, player):
 
 
 def cigarette_effect(game, player):
+    print(f"{player.name} lights a cigarette and takes a puff...")
+    time.sleep(0.5)
     if player.life < game.max_life_round:
         player.life += 1
+    game.print_player_health()
     return True
 
 
 def handcuff_effect(game, player):
-    print(
-        f"{player.name} raises handcuffs looking for a victim...", end=" ", flush=True
-    )
+    print(f"{player.name} raises handcuffs looking for a victim...")
     time.sleep(0.5)
     player_number = player.strategy.decide_other_player(player)
     player_to_handcuff = game.get_player_by_number(player_number)
@@ -82,15 +89,22 @@ def handcuff_effect(game, player):
     return True
 
 
-def inverter_effect(game, _player):
-    if game.shotgun.magazine_tube[0] == "blank":
-        game.shotgun.magazine_tube[0] = "live"
+def inverter_effect(game, player):
+    print(f"{player.name} spins the inverter up")
+    if game.shotgun.magazine_tube[0].type == "blank":
+        game.shotgun.magazine_tube[0] = Bullet("live")
     else:
-        game.shotgun.magazine_tube[0] = "blank"
+        game.shotgun.magazine_tube[0] = Bullet("blank")
     return True
 
 
-def magnifier_effect(game, _player):
+def magnifier_effect(game, player):
+    print(
+        f"{player.name} looks through the magnifier into the chamber...",
+        end="",
+        flush=True,
+    )
+    time.sleep(0.5)
     game.shotgun.magazine_tube[0].print_bullet()
     return True
 
@@ -108,6 +122,8 @@ def phone_effect(game, player):
 
 
 def pill_effect(game, player):
+    print(f"{player.name} takes a pill...")
+    time.sleep(1)
     chance = rand(0, 100)
     if chance < 50:
         player.life += 2
@@ -117,11 +133,15 @@ def pill_effect(game, player):
         player.life = game.max_life_round
     if player.life < 0:
         player.life = 0
+    game.print_player_health()
     return True
 
 
 def saw_effect(game, player):
-    game.shotgun.saw_off()
+    if not game.shotgun.sawn_off:
+        print(f"{player.name} grabs a saw and saws off the shotgun barrel")
+        game.shotgun.saw_off()
+        game.shotgun.print_shotgun()
     return True
 
 

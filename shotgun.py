@@ -1,3 +1,4 @@
+import time
 import colorama
 from random import randrange as rand, shuffle
 
@@ -17,11 +18,19 @@ class Shotgun:
         self.magazine_tube = bullets
 
     def pump_magazine(self):
+        if len(self.magazine_tube) == 0:
+            print(colorama.Fore.WHITE + "*click*" + colorama.Style.RESET_ALL)
+            time.sleep(1)
+            print("It seems the shotgun is empty...")
+            time.sleep(1)
+            return None
         bullet = self.magazine_tube.pop(0)
         return bullet
 
     def shot(self) -> int:
         bullet = self.pump_magazine()
+        if bullet == None:
+            return 0
         shot_damage = self.damage
         self._un_saw()
         if bullet.type == "live":

@@ -83,8 +83,6 @@ class Game:
             for player in self.players:
                 for _ in range(0, 2):
                     player.inventory.add_item()
-                print(f"{player.name} inventory")
-                player.inventory.print_items()
 
             bullets = [Bullet("live"), Bullet("blank")]
             for _ in range(shotgun_rounds_amount):
@@ -92,6 +90,9 @@ class Game:
             self.print_round()
             self.print_bullets(bullets)
             self.shotgun.load(bullets)
+            time.sleep(3)
+            clear_screen()
+            self.print_items()
             time.sleep(3)
             clear_screen()
 
