@@ -11,8 +11,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: actions/setup-python@v5
+
       - name: 'install requirements'
-        uses: actions/setup-python@v5
         run: pip install -r requirements.txt
 
       - name: 'build'
