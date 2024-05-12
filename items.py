@@ -2,25 +2,30 @@ import time
 
 import colorama
 
+import config
+
 from random import randrange as rand
 
 from helpers import load_ascii_art_as_lines
 from shotgun import Bullet
 from abc import ABC, abstractmethod
 
-# Validates if file has 10 lines and 20 characters per line
+
 # loads it into a list of lines without newline characters
 def load_item_art(fname: str) -> list:
     item_lines = load_ascii_art_as_lines(fname)
     remove_newline_character = lambda x: x.replace("\n", "").replace("\r", "")
 
     formatted_lines = list(map(remove_newline_character, item_lines))
-    if len(formatted_lines) < 10:
-        raise ValueError(f"Item file {fname} must have 10 lines")
+    width = config.CONFIG["itemArtWidth"]
+    height = config.CONFIG["itemArtHeight"]
+
+    if len(formatted_lines) < height:
+        raise ValueError(f"Item file {fname} must have {height} lines")
 
     for line in formatted_lines:
-        if len(line) != 20:
-            raise ValueError(f"Item file {fname} must have 20 characters per line")
+        if len(line) != width:
+            raise ValueError(f"Item file {fname} must have {width} characters per line")
 
     return formatted_lines
 
@@ -30,11 +35,12 @@ class AbstractItem:
     item_name: str
 
     def __init__(self):
-        self.art = load_item_art(f"assets/art/items/LR/{self.item_name}.txt")
+        folder = config.CONFIG["itemArtFolder"]
+        self.art = load_item_art(f"{folder}/{self.item_name}.txt")
 
     @abstractmethod
     def use(self, game, player) -> bool:
-        raise Exception('Not implemented')
+        raise Exception("Not implemented")
 
 
 class Adrenaline(AbstractItem):
@@ -46,7 +52,9 @@ class Adrenaline(AbstractItem):
         time.sleep(1)
         player_number = player.strategy.decide_other_player(player)
         player_to_get_item = game.get_player_by_number(player_number)
-        print(f"the adrenaline rush lets him grab on of {player_to_get_item.name}'s items")
+        print(
+            f"the adrenaline rush lets him grab on of {player_to_get_item.name}'s items"
+        )
         time.sleep(1)
         if player_to_get_item.inventory.item_count() == 0:
             print(f"but {player_to_get_item.name} has no items to be stolen...")
@@ -64,7 +72,9 @@ class Beer(AbstractItem):
     item_name = "beer"
 
     def use(self, game, player):
-        print(f"{player.name} drinks a beer and pumps the shotgun...", end="", flush=True)
+        print(
+            f"{player.name} drinks a beer and pumps the shotgun...", end="", flush=True
+        )
         time.sleep(1)
         print("to reveal a", end=" ")
         bullet = game.shotgun.pump_magazine()
@@ -77,7 +87,7 @@ class Beer(AbstractItem):
 
 
 class Cigarette(AbstractItem):
-    item_name = 'cigarette'
+    item_name = "cigarette"
 
     def use(self, game, player):
         print(f"{player.name} lights a cigarette and takes a puff...")
@@ -89,7 +99,7 @@ class Cigarette(AbstractItem):
 
 
 class Handcuff(AbstractItem):
-    item_name = 'handcuff'
+    item_name = "handcuff"
 
     def use(self, game, player):
         print(f"{player.name} raises handcuffs looking for a victim...")
@@ -104,7 +114,7 @@ class Handcuff(AbstractItem):
 
 
 class Inverter(AbstractItem):
-    item_name = 'inverter'
+    item_name = "inverter"
 
     def use(self, game, player):
         print(f"{player.name} spins the inverter up")
@@ -116,7 +126,7 @@ class Inverter(AbstractItem):
 
 
 class Magnifier(AbstractItem):
-    item_name = 'magnifier'
+    item_name = "magnifier"
 
     def use(self, game, player):
         print(
@@ -130,10 +140,12 @@ class Magnifier(AbstractItem):
 
 
 class Phone(AbstractItem):
-    item_name = 'phone'
+    item_name = "phone"
 
     def use(self, game, player):
-        print(f"{player.name} hears an ominous voice on the phone...", end="", flush=True)
+        print(
+            f"{player.name} hears an ominous voice on the phone...", end="", flush=True
+        )
         time.sleep(0.5)
         bullet_number = rand(0, len(game.shotgun.magazine_tube))
         print(
@@ -145,7 +157,7 @@ class Phone(AbstractItem):
 
 
 class Pill(AbstractItem):
-    item_name = 'pill'
+    item_name = "pill"
 
     def use(self, game, player):
         print(f"{player.name} takes a pill...")
@@ -164,7 +176,7 @@ class Pill(AbstractItem):
 
 
 class Saw(AbstractItem):
-    item_name = 'saw'
+    item_name = "saw"
 
     def use(self, game, player):
         if not game.shotgun.sawn_off:
@@ -186,13 +198,9 @@ all_items = {
     "saw": Saw(),
 }
 
-
-
-
-# Assuming all items have 10 lines and 20 characters per line
 empty_item_art = []
-for _ in range(10):
-    line = " " * 20
+for _ in range(config.CONFIG["itemArtHeight"]):
+    line = " " * config.CONFIG["itemArtWidth"]
     empty_item_art.append(line)
 
 

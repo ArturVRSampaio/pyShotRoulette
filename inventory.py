@@ -1,3 +1,4 @@
+import config
 import items
 
 
@@ -35,7 +36,7 @@ class Inventory:
             else:
                 inventory_item_lines.append(items.all_items[item].art)
 
-        for i in range(10):
+        for i in range(config.CONFIG["itemArtHeight"]):
             print(" | ", end="")
             for item_line in inventory_item_lines:
                 print(item_line[i], end=" | ")
