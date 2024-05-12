@@ -18,7 +18,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: 'build'
-        run: pyinstaller --onefile main.py --name pyShotRoulette --add-data ./assets:assets
+        run: pyinstaller --onefile main.py --name pyShotRoulette --add-data ./assets/*:.
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
@@ -39,7 +39,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: 'build'
-        run: pyinstaller --onefile main.py --name pyShotRoulette --add-data ./assets:assets
+        run: pyinstaller --onefile main.py --name pyShotRoulette --add-data ./assets/*:.
 
       - uses: marvinpinto/action-automatic-releases@latest
         with:
