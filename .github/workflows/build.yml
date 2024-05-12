@@ -22,16 +22,28 @@ jobs:
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GIT_TOKEN }}"
-          automatic_release_tag: "latest"
+          automatic_release_tag: "latest-linux"
           prerelease: true
           title: "linux build"
-          files: dist/main
+          files: dist/*
 
+  buildwindows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
 
-#  buildwindows:
-#    runs-on: windows-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#
-#      - name: 'build and publish windows'
-#        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
+
+      - name: 'install requirements'
+        run: pip install -r requirements.txt
+
+      - name: 'build'
+        run: pyinstaller --onefile main.py
+
+      - uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: "${{ secrets.GIT_TOKEN }}"
+          automatic_release_tag: "latest-windows"
+          prerelease: true
+          title: "windows build"
+          files: dist/*
