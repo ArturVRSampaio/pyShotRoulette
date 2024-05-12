@@ -13,10 +13,10 @@ jobs:
 
       - name: 'install requirements'
         uses: actions/setup-python@v5
-      - run: pip install -r requirements.txt
+        run: pip install -r requirements.txt
 
       - name: 'build'
-      - run: pyinstaller --onefile main.py
+        run: pyinstaller --onefile main.py
 
 
 #
