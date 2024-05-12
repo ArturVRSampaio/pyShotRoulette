@@ -11,9 +11,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: 'build and publish linux'
+      - name: 'install requirements'
         uses: actions/setup-python@v5
       - run: pip install -r requirements.txt
+
+      - name: 'build'
+      - run: pyinstaller --onefile main.py
+
 
 #
 #      - name: Create release
