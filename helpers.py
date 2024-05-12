@@ -1,4 +1,5 @@
 import os
+import sys
 
 
 def clear_screen():
@@ -9,10 +10,14 @@ def clear_screen():
 
 
 def load_ascii_art(file_path: str) -> str:
-    with open(file_path, "r") as file:
+    with open(resource_path(file_path), "r") as file:
         return file.read()
 
 
 def load_ascii_art_as_lines(file_path: str) -> list:
-    with open(file_path, "r") as file:
+    with open(resource_path(file_path), "r") as file:
         return file.readlines()
+
+def resource_path(relative_path):
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)

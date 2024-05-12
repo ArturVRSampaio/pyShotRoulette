@@ -29,7 +29,6 @@ jobs:
           files: |
             dist/*
             config.json
-            assets
 
   buildwindows:
     runs-on: windows-latest
@@ -53,4 +52,3 @@ jobs:
           files: |
             dist/*
             config.json
-            assets
