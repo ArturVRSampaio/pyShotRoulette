@@ -22,7 +22,7 @@ class ServerIO:
             if player.life > 0:
                 for i in range(0, 3):
                     self.send_text_to_all_clients(colorama.Fore.GREEN)
-                    result, font, decoration = art.text2art(f"{player.name} wins", space=2, font="small")
+                    result = art.text2art(f"{player.name} wins", space=2, font="small")
                     self.send_text_to_all_clients(result)
                     self.send_text_to_all_clients(colorama.Style.RESET_ALL)
                     time.sleep(0.7)
