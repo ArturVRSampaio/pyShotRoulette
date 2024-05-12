@@ -29,4 +29,4 @@ if __name__ == "__main__":
                 input_data = input(input_text)
                 send_message(connection, input_data)
             case _:
-                print(f'chegou "{action}"')
+                raise Exception(f'unexpected server action "{action}"')

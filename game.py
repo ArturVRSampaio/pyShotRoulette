@@ -66,7 +66,7 @@ class Game:
             self.serverIO.send_clear_to_all_clients()
 
             while (
-                    self.has_minimum_live_players() and len(self.shotgun.magazine_tube) > 0
+                self.has_minimum_live_players() and len(self.shotgun.magazine_tube) > 0
             ):
                 self.serverIO.print_player_health()
                 self.serverIO.send_text_to_all_clients(self.shotgun.serialize())
@@ -85,11 +85,17 @@ class Game:
 
                 match damage:
                     case 2:
-                        self.serverIO.send_text_to_all_clients(colorama.Fore.RED + "BANG!" + colorama.Style.RESET_ALL)
+                        self.serverIO.send_text_to_all_clients(
+                            colorama.Fore.RED + "BANG!" + colorama.Style.RESET_ALL
+                        )
                     case 1:
-                        self.serverIO.send_text_to_all_clients(colorama.Fore.RED + "BANG!" + colorama.Style.RESET_ALL)
+                        self.serverIO.send_text_to_all_clients(
+                            colorama.Fore.RED + "BANG!" + colorama.Style.RESET_ALL
+                        )
                     case 0:
-                        self.serverIO.send_text_to_all_clients(colorama.Fore.WHITE + "*click*" + colorama.Style.RESET_ALL)
+                        self.serverIO.send_text_to_all_clients(
+                            colorama.Fore.WHITE + "*click*" + colorama.Style.RESET_ALL
+                        )
 
                 if not (player_to_shoot == player and damage == 0):
                     self.next_player()
