@@ -18,7 +18,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: 'build'
-        run: pyinstaller --onefile main.py
+        run: pyinstaller --onefile main.py --name pyShotRoulette --add-data ./assets:assets
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
@@ -39,7 +39,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: 'build'
-        run: pyinstaller --onefile main.py
+        run: pyinstaller --onefile main.py --name pyShotRoulette --add-data ./assets:assets
 
       - uses: marvinpinto/action-automatic-releases@latest
         with:
@@ -47,4 +47,6 @@ jobs:
           automatic_release_tag: "latest-windows"
           prerelease: true
           title: "windows build"
-          files: dist/*
+          files: |
+            dist/*
+            config.json
