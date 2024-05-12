@@ -1,27 +1,16 @@
 import socket
-import threading
 
 import main
 
-waiting_players = True
+from client_connection import ClientConnection
 
-
-class ClientConnection:
-    def __init__(self, connection, address):
-        self.connection = connection
-        self.address = address
-        data = connection.recv(1024)
-        self.player_name = data.decode("UTF-8")
-    def close(self):
-        self.connection.close()
-
-
-def thread_function():
-    global waiting_players
+if __name__ == "__main__":
+    waiting_players = True
     host = ""
     port = 5000
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_socket.settimeout(0.5)
+    server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    server_socket.setblocking(True)
     server_socket.bind((host, port))
     server_socket.listen(10)
 
@@ -35,9 +24,9 @@ def thread_function():
             player = ClientConnection(connection, address)
             player_connections.append(player)
             print(f'{player.player_name} joined the game')
-
-        except socket.timeout:
-            pass
+            should_start = input("Write y to start the game...")
+            if should_start.lower() == 'y':
+                waiting_players = False
         except:
             print("Failed to connect")
 
@@ -45,11 +34,3 @@ def thread_function():
     main.start(player_connections)
     for player_connection in player_connections:
         player_connection.close()
-
-
-if __name__ == "__main__":
-    x = threading.Thread(target=thread_function, args=())
-    x.start()
-    input("Enter to start game...")
-    waiting_players = False
-    x.join()
