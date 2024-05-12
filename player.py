@@ -3,24 +3,29 @@ from helpers import clear_screen
 from inventory import Inventory
 from time import sleep
 from random import randrange as rand
+from abc import ABC, abstractmethod
 
 
-class Strategy:
+class StrategyInterface:
+    @abstractmethod
     def decide_shot(self) -> int:
         pass
 
+    @abstractmethod
     def decide_action(self, player) -> str:
         pass
 
+    @abstractmethod
     def decide_item(self, game, player):
         pass
 
+    @abstractmethod
     def decide_other_player(self, player):
         pass
 
 
 class Player:
-    def __init__(self, strategy: Strategy, name: str):
+    def __init__(self, strategy: StrategyInterface, name: str):
         self.strategy = strategy
         self.life = 2
         self.name = name
@@ -59,7 +64,7 @@ class Player:
         self.cuffed = False
 
 
-class HumanStrategy(Strategy):
+class HumanStrategy(StrategyInterface):
     def decide_shot(self):
         return int(input("Player number to shoot?\n"))
 
@@ -82,7 +87,7 @@ class HumanStrategy(Strategy):
         return other_player
 
 
-class IaStrategy(Strategy):
+class IaStrategy(StrategyInterface):
     def decide_shot(self):
         print(f"IA player grabs the shotgun with malicious intent")
         sleep(1)

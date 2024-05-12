@@ -5,10 +5,9 @@ class Inventory:
     def __init__(self):
         self.item_names = ["empty", "empty", "empty", "empty"]
 
-    def add_item(self):
+    def add_item(self, item):
         if self.is_full():
             return
-        item = items.generate_item()
         for i in range(len(self.item_names)):
             if self.item_names[i] == "empty":
                 self.item_names[i] = item
@@ -36,7 +35,7 @@ class Inventory:
             else:
                 inventory_item_lines.append(items.all_items[item].art)
 
-        for i in range(20):
+        for i in range(10):
             print(" | ", end="")
             for item_line in inventory_item_lines:
                 print(item_line[i], end=" | ")

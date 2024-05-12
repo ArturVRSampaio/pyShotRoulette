@@ -1,7 +1,11 @@
+import shutil
+
 import colorama
 import time
 import art
 from random import randrange as rand, shuffle
+
+import items
 from helpers import clear_screen
 from player import HumanStrategy, IaStrategy, Player
 from shotgun import Bullet, Shotgun
@@ -18,7 +22,7 @@ class Game:
         self.shotgun = Shotgun()
 
     def print_separator(self):
-        print("-" * 20 + "\n")
+        print("-" * 10 + "\n")
 
     def print_round(self):
         print("\n")
@@ -48,9 +52,9 @@ class Game:
     def print_items(self):
         for player in self.players:
             print(f"{player.name} inventory")
-            print("-" * 180)
+            print("-" * shutil.get_terminal_size().columns)
             player.inventory.print_items()
-            print("-" * 180)
+            print("-" * shutil.get_terminal_size().columns)
 
     def reset_player_lives(self, amount):
         for player in self.players:
@@ -82,7 +86,8 @@ class Game:
 
             for player in self.players:
                 for _ in range(0, 2):
-                    player.inventory.add_item()
+                    item = items.generate_item()
+                    player.inventory.add_item(item)
 
             bullets = [Bullet("live"), Bullet("blank")]
             for _ in range(shotgun_rounds_amount):
