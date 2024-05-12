@@ -7,7 +7,7 @@ import config
 
 from random import randrange as rand
 
-from helpers import load_ascii_art_as_lines, zalgoTextGenerator
+from helpers import load_ascii_art_as_lines
 from shotgun import Bullet
 from abc import ABC, abstractmethod
 
@@ -48,7 +48,9 @@ class Adrenaline(AbstractItem):
     item_name = "adrenaline"
 
     def use(self, game, player):
-        game.serverIO.send_text_to_all_clients(f"{player.name} takes a deep breath and injects the suspicious needle")
+        game.serverIO.send_text_to_all_clients(
+            f"{player.name} takes a deep breath and injects the suspicious needle"
+        )
         game.serverIO.print_items()
         time.sleep(1)
         player_number = player.decide_other_player()
@@ -58,7 +60,9 @@ class Adrenaline(AbstractItem):
         )
         time.sleep(1)
         if player_to_get_item.inventory.item_count() == 0:
-            game.serverIO.send_text_to_all_clients(f"but {player_to_get_item.name} has no items to be stolen...")
+            game.serverIO.send_text_to_all_clients(
+                f"but {player_to_get_item.name} has no items to be stolen..."
+            )
             return False
         item_number = player.decide_item(game, player_to_get_item)
         if player_to_get_item.inventory.item_names[item_number] == "adrenaline":
@@ -79,7 +83,12 @@ class Beer(AbstractItem):
         time.sleep(1)
         game.serverIO.send_text_to_all_clients("to reveal a")
         bullet = game.shotgun.pump_magazine()
-        game.serverIO.send_text_to_all_clients(colorama.Fore.WHITE + bullet.serialize() + colorama.Style.RESET_ALL + " round")
+        game.serverIO.send_text_to_all_clients(
+            colorama.Fore.WHITE
+            + bullet.serialize()
+            + colorama.Style.RESET_ALL
+            + " round"
+        )
         time.sleep(0.5)
         return True
 
@@ -88,7 +97,9 @@ class Cigarette(AbstractItem):
     item_name = "cigarette"
 
     def use(self, game, player):
-        game.serverIO.send_text_to_all_clients(f"{player.name} lights a cigarette and takes a puff...")
+        game.serverIO.send_text_to_all_clients(
+            f"{player.name} lights a cigarette and takes a puff..."
+        )
         time.sleep(0.5)
         if player.life < game.max_life_round:
             player.life += 1
@@ -100,7 +111,9 @@ class Handcuff(AbstractItem):
     item_name = "handcuff"
 
     def use(self, game, player):
-        game.serverIO.send_text_to_all_clients(f"{player.name} raises handcuffs looking for a victim...")
+        game.serverIO.send_text_to_all_clients(
+            f"{player.name} raises handcuffs looking for a victim..."
+        )
         time.sleep(0.5)
         player_number = player.decide_other_player()
         player_to_handcuff = game.get_player_by_number(player_number)
@@ -140,14 +153,16 @@ class Phone(AbstractItem):
     item_name = "phone"
 
     def use(self, game, player):
-        game.serverIO.send_text_to_all_clients(f"{player.name} hears an ominous voice on the phone...")
+        game.serverIO.send_text_to_all_clients(
+            f"{player.name} hears an ominous voice on the phone..."
+        )
         time.sleep(0.5)
         bullet_number = rand(0, len(game.shotgun.magazine_tube))
 
-        bullet_number_text = f'{colorama.Fore.BLUE}{bullet_number + 1}{colorama.Style.RESET_ALL}'
-        ominous_text = ((f"bullet number ") +
-                        bullet_number_text +
-                        ("is a"))
+        bullet_number_text = (
+            f"{colorama.Fore.BLUE}{bullet_number + 1}{colorama.Style.RESET_ALL}"
+        )
+        ominous_text = (f"bullet number ") + bullet_number_text + ("is a")
         bullet_type = game.shotgun.magazine_tube[bullet_number].serialize()
 
         player.client.print(f"It says: {ominous_text} {bullet_type}")
@@ -178,7 +193,9 @@ class Saw(AbstractItem):
 
     def use(self, game, player):
         if not game.shotgun.sawn_off:
-            game.serverIO.send_text_to_all_clients(f"{player.name} grabs a saw and saws off the shotgun barrel")
+            game.serverIO.send_text_to_all_clients(
+                f"{player.name} grabs a saw and saws off the shotgun barrel"
+            )
             game.shotgun.saw_off()
             game.serverIO.send_text_to_all_clients(game.shotgun.serialize())
         return True

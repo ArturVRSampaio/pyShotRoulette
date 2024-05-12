@@ -1,27 +1,24 @@
-ENCODING = "UTF-8"
+from mtp import get_message, send_message
 
 
 class ClientConnection:
     def __init__(self, connection, address):
         self.connection = connection
         self.address = address
-        data = connection.recv(1024)
-        self.player_name = data.decode(ENCODING)
+        self.player_name = get_message(self.connection)
 
     def print(self, line: str) -> None:
-        line += ";"
-        self.connection.send("print;".encode(ENCODING))
-        self.connection.send(line.encode(ENCODING))
+        send_message(self.connection, "print")
+        send_message(self.connection, line)
 
     def clear(self) -> None:
-        self.connection.send("clear;".encode(ENCODING))
+        send_message(self.connection, "clear")
 
-    def input(self, input_text) -> str:
-        input_text += ";"
-        self.connection.send("input;".encode(ENCODING))
-        self.connection.send(input_text.encode(ENCODING))
-        response = self.connection.recv(1024)
-        return response.decode(ENCODING)
+    def input(self, input_text: str) -> str:
+        send_message(self.connection, "input")
+        send_message(self.connection, input_text)
+        response = get_message(self.connection)
+        return response
 
     def close(self) -> None:
         self.connection.close()
