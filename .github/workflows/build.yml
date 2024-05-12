@@ -26,7 +26,10 @@ jobs:
           automatic_release_tag: "latest-linux"
           prerelease: true
           title: "linux build"
-          files: dist/*
+          files: |
+            dist/*
+            config.json
+            assets
 
   buildwindows:
     runs-on: windows-latest
@@ -50,3 +53,4 @@ jobs:
           files: |
             dist/*
             config.json
+            assets
