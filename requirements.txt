@@ -1,0 +1,6 @@
+altgraph==0.17.4
+art==6.2
+colorama==0.4.6
+packaging==24.0
+pyinstaller==6.6.0
+pyinstaller-hooks-contrib==2024.5

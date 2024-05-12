@@ -1,0 +1,55 @@
+name: build
+
+on:
+  push:
+    branches:
+    - 'main'
+
+jobs:
+  buildlinux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 'build and publish linux'
+        uses: actions/setup-python@v5
+      - run: pip install -r requirements.txt
+
+#
+#      - name: Create release
+#        id: create_release
+#        uses: actions/create-release@v1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          tag_name: ${{ github.ref }}
+#          release_name: Release ${{ github.ref }}
+#          body: |
+#            Changes in this Release
+#            - First Change
+#            - Second Change
+#          draft: true
+#          prerelease: false
+#      - name: Upload release asset
+#        uses: actions/upload-release-asset@v1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          upload_url: ${{ steps.create_release.outputs.upload_url }}
+#          asset_path: ./path/to/asset.zip
+#          asset_name: asset.zip
+#          asset_content_type: application/zip
+#      - name: Publish release
+#        uses: StuYarrow/publish-release@v1.1.2
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          id: ${{ steps.create_release.outputs.id }}
+
+#  buildwindows:
+#    runs-on: windows-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#
+#      - name: 'build and publish windows'
+#        uses: actions/setup-python@v5
