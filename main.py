@@ -113,7 +113,7 @@ class Game:
                     self.next_player()
                     continue
 
-                player_to_shoot_number = player.decide(game)
+                player_to_shoot_number = player.decide(self)
                 if player_to_shoot_number == None:
                     self.next_player()
                     continue
@@ -159,11 +159,12 @@ class Game:
                     clear_screen()
 
 
-if __name__ == "__main__":
+def start(clientConnections: list):
     clear_screen()
-    player1 = Player(HumanStrategy(), "Human")
-    player2 = Player(IaStrategy(), "IA")
 
-    game = Game([player1, player2])
+    players = []
+    for client in clientConnections:
+        players.append(Player(IaStrategy(), client.player_name))
 
+    game = Game(players)
     game.play()
