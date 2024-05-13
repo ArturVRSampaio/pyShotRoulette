@@ -41,5 +41,5 @@ class Inventory:
             text += " | "
             for item_line in inventory_item_lines:
                 text += item_line[i] + " | "
-            text += '\n'
+            text += "\n"
         return text

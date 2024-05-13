@@ -16,6 +16,6 @@ with open(config_file, "r") as f:
 
     if CONFIG.get("AIPlayers") is None:
         CONFIG["AIPlayers"] = 0
-    
+
     if CONFIG.get("port") is None:
         CONFIG["port"] = 5000

@@ -18,6 +18,7 @@ class Shotgun:
 
     def is_empty(self):
         return len(self.magazine_tube) == 0
+
     def pump_magazine(self):
         if self.is_empty():
             return None

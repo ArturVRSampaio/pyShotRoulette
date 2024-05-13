@@ -8,6 +8,7 @@ from inventory import Inventory
 from client_connection import ClientConnection
 from serverIO import ServerIO
 
+
 class Player:
     def __init__(self, name: str, kind: str, client):
         self.name = name
@@ -17,6 +18,7 @@ class Player:
         self.cuffed = False
         self.client = client
         self.kind = kind
+
     @abstractmethod
     def decide_shot(self) -> int:
         pass
@@ -68,7 +70,7 @@ class Player:
 
 class HumanPlayer(Player):
     def __init__(self, client: ClientConnection):
-        super().__init__(client.player_name, 'player', client)
+        super().__init__(client.player_name, "player", client)
 
     def decide_shot(self) -> int:
         number = self.client.input("Player number to shoot?\n")
@@ -99,12 +101,14 @@ class HumanPlayer(Player):
 
 class IaPlayer(Player):
     def __init__(self, name: str, serverIO: ServerIO, total_players: int):
-        super().__init__(name, 'ia', client_connection.MockClientConnection())
+        super().__init__(name, "ia", client_connection.MockClientConnection())
         self.serverIO = serverIO
         self.total_players = total_players
 
     def decide_shot(self):
-        self.serverIO.send_text_to_all_clients(f"{self.name} grabs the shotgun with malicious intent")
+        self.serverIO.send_text_to_all_clients(
+            f"{self.name} grabs the shotgun with malicious intent"
+        )
         time.sleep(1)
         who = rand(1, self.total_players + 1)
         self.serverIO.send_text_to_all_clients(f"{who}")
@@ -129,7 +133,9 @@ class IaPlayer(Player):
             if inventory.item_names[i] != "empty":
                 item_indexes.append(i)
         random_index = rand(0, len(item_indexes))
-        self.serverIO.send_text_to_all_clients(f"{self.name} uses item {item_indexes[random_index] + 1}")
+        self.serverIO.send_text_to_all_clients(
+            f"{self.name} uses item {item_indexes[random_index] + 1}"
+        )
         time.sleep(2)
         return item_indexes[random_index]
 

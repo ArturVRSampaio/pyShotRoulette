@@ -4,6 +4,7 @@ from math import ceil
 
 import colorama
 from faker import Faker
+
 fake = Faker()
 
 import items as items
@@ -84,7 +85,7 @@ class Game:
                 if player.life == 0:
                     self.next_player()
                     continue
-                
+
                 self.serverIO.print_player_health()
                 self.serverIO.send_text_to_all_clients(self.shotgun.serialize())
 
@@ -148,7 +149,7 @@ def start(client_connections: list[ClientConnection]):
         print(f"{ai_players} ai and {real_players} real players")
         print(f"Minimum of 2 total players")
         return
-    
+
     players: list[Player] = []
 
     for client in client_connections:
@@ -157,7 +158,7 @@ def start(client_connections: list[ClientConnection]):
     serverIO = ServerIO(players)
 
     for _ in range(0, CONFIG["AIPlayers"]):
-        players.append(IaPlayer(fake.name()+"(AI)", serverIO, total_players))
+        players.append(IaPlayer(fake.name() + "(AI)", serverIO, total_players))
 
     game = Game(players, serverIO)
     game.play()

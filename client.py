@@ -13,7 +13,7 @@ with open(config_file, "r") as f:
 if __name__ == "__main__":
     buffer = ""
     msg = input("Enter your name:\n")
-    
+
     host = CONFIG["serverHost"]
     port = CONFIG["serverPort"]
 
