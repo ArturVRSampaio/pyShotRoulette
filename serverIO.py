@@ -5,6 +5,8 @@ import art
 import shutil
 import colorama
 
+from helpers import int2roman
+
 
 class ServerIO:
     def __init__(self, players: list):
@@ -35,10 +37,22 @@ class ServerIO:
     def print_separator(self) -> None:
         self.send_text_to_all_clients("-" * 10 + "\n")
 
-    def print_round(self, round: int) -> None:
+    def print_round(self, round: int, max_round: int) -> None:
+        all_rounds_roman = []
+        for i in range(1, max_round + 1):
+            all_rounds_roman.append(int2roman(i))
+        max_str_size = max(map(len, all_rounds_roman))
+        rounds_text = ""
+        for i in range(0, max_round):
+            spaces = " " * (max_str_size - len(all_rounds_roman[i]) + 1)
+            rounds_text += all_rounds_roman[i] + spaces
         self.send_text_to_all_clients("\n")
-        self.send_text_to_all_clients("I   II  III ")
-        self.send_text_to_all_clients("    " * (round - 1) + "X" + "    " * (3 - round))
+        self.send_text_to_all_clients(rounds_text)
+        current_round_space = " " * (max_str_size)
+        space_left = (current_round_space + " ") * (round - 1)
+        space_right = (current_round_space + " ") * (max_round - round - 1)
+        current_round_symbol = "X" + current_round_space
+        self.send_text_to_all_clients(space_left + current_round_symbol + space_right)
         self.print_separator()
 
     def print_player_health(self) -> None:

@@ -19,7 +19,7 @@ class Game:
     def __init__(self, players: list, serverIO: ServerIO):
         self.round = 1
         self.max_life_round = 2
-        self.last_round = 3
+        self.last_round = len(players) + 1
         self.players = players
         for number, player in enumerate(players):
             player.set_number(number + 1)
@@ -39,7 +39,7 @@ class Game:
         self.max_life_round = self.round * 2
         self.reset_player_lives(self.max_life_round)
         if self.round <= self.last_round:
-            self.serverIO.print_round(self.round)
+            self.serverIO.print_round(self.round, self.last_round)
 
         time.sleep(2)
         self.serverIO.send_clear_to_all_clients()
@@ -51,7 +51,7 @@ class Game:
         raise Exception("Player not found")
 
     def play(self):
-        self.serverIO.print_round(self.round)
+        self.serverIO.print_round(self.round, self.last_round)
         time.sleep(2)
         self.serverIO.send_clear_to_all_clients()
 
@@ -68,7 +68,7 @@ class Game:
             bullets = [Bullet("live"), Bullet("blank")]
             for _ in range(shotgun_rounds_amount):
                 bullets.append(Bullet())
-            self.serverIO.print_round(self.round)
+            self.serverIO.print_round(self.round, self.last_round)
             self.serverIO.print_bullets(bullets)
             self.shotgun.load(bullets)
             time.sleep(3)
@@ -96,7 +96,14 @@ class Game:
                     continue
 
                 player_to_shoot_number = player.decide(self)
+                if player_to_shoot_number == -1:
+                    continue
                 player_to_shoot = self.get_player_by_number(player_to_shoot_number)
+
+                self.serverIO.send_text_to_all_clients(
+                    f"{player.name} shoots {player_to_shoot.name}"
+                )
+                time.sleep(1)
 
                 damage = self.shotgun.shot()
 

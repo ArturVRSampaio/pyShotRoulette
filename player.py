@@ -44,9 +44,9 @@ class Player:
             elif action == "look":
                 game.serverIO.print_items()
             action = self.decide_action()
-        if action == "shoot":
-            return self.decide_shot()
-        return self.number
+        if game.shotgun.is_empty():
+            return -1
+        return self.decide_shot()
 
     def use_item(self, item_number, game):
         used_item = self.inventory.use_item(item_number, game, self)
@@ -111,7 +111,6 @@ class IaPlayer(Player):
         )
         time.sleep(1)
         who = rand(1, self.total_players + 1)
-        self.serverIO.send_text_to_all_clients(f"{who}")
         return who
 
     def decide_action(self) -> str:
