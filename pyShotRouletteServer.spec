@@ -1,11 +1,13 @@
 # -*- mode: python ; coding: utf-8 -*-
-
+added_files = [
+("assets", "assets"),
+]
 
 a = Analysis(
-    ['client.py'],
+    ['server.py'],
     pathex=[],
     binaries=[],
-    datas=[],
+    datas=added_files,
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -22,7 +24,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='pyShotRoulette',
+    name='pyShotRouletteServer',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

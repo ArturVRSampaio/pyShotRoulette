@@ -1,6 +1,12 @@
+makefile
 __pycache__
 build
 dist
+lib
+lib64
+include
+bin
+pyvenv.cfg
 
 .idea
 .vscode

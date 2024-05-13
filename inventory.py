@@ -1,4 +1,4 @@
-import config
+import server_config
 import items
 
 
@@ -28,7 +28,7 @@ class Inventory:
     def is_full(self):
         return all(item != "empty" for item in self.item_names)
 
-    def print_items(self):
+    def serialize_items(self) -> str:
         inventory_item_lines = []
         for item in self.item_names:
             if item == "empty":
@@ -36,8 +36,10 @@ class Inventory:
             else:
                 inventory_item_lines.append(items.all_items[item].art)
 
-        for i in range(config.CONFIG["itemArtHeight"]):
-            print(" | ", end="")
+        text = ""
+        for i in range(server_config.CONFIG["itemArtHeight"]):
+            text += " | "
             for item_line in inventory_item_lines:
-                print(item_line[i], end=" | ")
-            print()
+                text += item_line[i] + " | "
+            text += "\n"
+        return text

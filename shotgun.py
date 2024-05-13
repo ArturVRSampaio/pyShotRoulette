@@ -1,4 +1,3 @@
-import time
 import colorama
 from random import randrange as rand, shuffle
 
@@ -17,26 +16,24 @@ class Shotgun:
         shuffle(bullets)
         self.magazine_tube = bullets
 
+    def is_empty(self):
+        return len(self.magazine_tube) == 0
+
     def pump_magazine(self):
-        if len(self.magazine_tube) == 0:
-            print(colorama.Fore.WHITE + "*click*" + colorama.Style.RESET_ALL)
-            time.sleep(1)
-            print("It seems the shotgun is empty...")
-            time.sleep(1)
+        if self.is_empty():
             return None
         bullet = self.magazine_tube.pop(0)
         return bullet
 
+    # -1 -> shotgun empty, 0 -> shot blank, 1 -> shot live
     def shot(self) -> int:
         bullet = self.pump_magazine()
-        if bullet == None:
-            return 0
+        if bullet is None:
+            return -1
         shot_damage = self.damage
         self._un_saw()
         if bullet.type == "live":
-            print(colorama.Fore.RED + "BANG!" + colorama.Style.RESET_ALL)
             return shot_damage
-        print(colorama.Fore.WHITE + "*click*" + colorama.Style.RESET_ALL)
         return 0
 
     def saw_off(self):
@@ -47,11 +44,10 @@ class Shotgun:
         self.damage = 1
         self.sawn_off = False
 
-    def print_shotgun(self):
+    def serialize(self) -> str:
         if self.sawn_off:
-            print(self.sawed_shotgun_art)
-        else:
-            print(self.shotgun_art)
+            return self.sawed_shotgun_art
+        return self.shotgun_art
 
 
 class Bullet:
@@ -63,8 +59,8 @@ class Bullet:
         else:
             self.type = type
 
-    def print_bullet(self):
+    def serialize(self):
         if self.type == "blank":
-            print(colorama.Fore.WHITE + "*blank*" + colorama.Style.RESET_ALL)
+            return colorama.Fore.WHITE + "*blank*" + colorama.Style.RESET_ALL + ""
         else:
-            print(colorama.Fore.RED + "*live*" + colorama.Style.RESET_ALL)
+            return colorama.Fore.RED + "*live*" + colorama.Style.RESET_ALL + ""

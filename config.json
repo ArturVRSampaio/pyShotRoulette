@@ -1,3 +1,4 @@
 {
-    "itemArtSize": "small"
+    "serverHost": "localhost",
+    "serverPort": 5000
 }

@@ -1,17 +1,45 @@
-import sys
+import json
 import socket
-from _thread import *
+from helpers import clear_screen
+from mtp import get_message, send_message
 
-if __name__ == '__main__':
-    host = "127.0.0.1"
-    port = 5000
-    conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+config_file = "config.json"
+CONFIG = {}
+with open(config_file, "r") as f:
+    CONFIG = json.load(f)
+
+
+if __name__ == "__main__":
+    buffer = ""
+    msg = input("Enter your name:\n")
+
+    host = CONFIG["serverHost"]
+    port = CONFIG["serverPort"]
+
+    connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     target = (host, port)
-    conn.connect(target)
+    connection.setblocking(True)
+    connection.connect(target)
+    send_message(connection, msg)
+    print("Waiting for game to start")
+    while True:
+        action = get_message(connection)
 
-    msg = str(input("Envie uma mensagem para o servidor:\n"))
-    conn.send(msg.encode('UTF-8'))
-    data = conn.recv(1024)
-    reply = data.decode('UTF-8')
-    print("Servidor respondeu: " + reply)
-    conn.close()
+        match action:
+            case "print":
+                line = get_message(connection)
+                print(line)
+            case "clear":
+                clear_screen()
+            case "input":
+                input_text = get_message(connection)
+                input_data = input(input_text)
+                send_message(connection, input_data)
+            case "":
+                clear_screen()
+                print("Server closed connection")
+                break
+            case _:
+                raise Exception(f'unexpected server action "{action}"')
+    input("Press enter to exit")
