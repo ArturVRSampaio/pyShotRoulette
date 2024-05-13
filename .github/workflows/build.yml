@@ -17,8 +17,11 @@ jobs:
       - name: 'install requirements'
         run: pip install -r requirements.txt
 
-      - name: 'build'
+      - name: 'build-client'
         run:  pyinstaller pyShotRoulette.spec
+
+      - name: 'build-server'
+        run: pyinstaller pyShotRouletteServer.spec
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
@@ -29,6 +32,7 @@ jobs:
           files: |
             dist/*
             config.json
+            server_config.json
 
   buildwindows:
     runs-on: windows-latest
@@ -40,8 +44,11 @@ jobs:
       - name: 'install requirements'
         run: pip install -r requirements.txt
 
-      - name: 'build'
+      - name: 'build-client'
         run:  pyinstaller pyShotRoulette.spec
+
+      - name: 'build-server'
+        run: pyinstaller pyShotRouletteServer.spec
 
       - uses: marvinpinto/action-automatic-releases@latest
         with:
@@ -52,3 +59,4 @@ jobs:
           files: |
             dist/*
             config.json
+            server_config.json
