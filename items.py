@@ -1,15 +1,13 @@
-import random
 import time
-
-import colorama
-
-import config
-
 from random import randrange as rand
 
-from helpers import load_ascii_art_as_lines
-from shotgun import Bullet
+import colorama
 from abc import ABC, abstractmethod
+
+from helpers import load_ascii_art_as_lines
+
+import server_config
+from shotgun import Bullet
 
 
 # loads it into a list of lines without newline characters
@@ -18,8 +16,8 @@ def load_item_art(fname: str) -> list:
     remove_newline_character = lambda x: x.replace("\n", "").replace("\r", "")
 
     formatted_lines = list(map(remove_newline_character, item_lines))
-    width = config.CONFIG["itemArtWidth"]
-    height = config.CONFIG["itemArtHeight"]
+    width = server_config.CONFIG["itemArtWidth"]
+    height = server_config.CONFIG["itemArtHeight"]
 
     if len(formatted_lines) < height:
         raise ValueError(f"Item file {fname} must have {height} lines")
@@ -36,7 +34,7 @@ class AbstractItem:
     item_name: str
 
     def __init__(self):
-        folder = config.CONFIG["itemArtFolder"]
+        folder = server_config.CONFIG["itemArtFolder"]
         self.art = load_item_art(f"{folder}/{self.item_name}.txt")
 
     @abstractmethod
@@ -64,7 +62,7 @@ class Adrenaline(AbstractItem):
                 f"but {player_to_get_item.name} has no items to be stolen..."
             )
             return False
-        item_number = player.decide_item(game, player_to_get_item)
+        item_number = player.decide_item(game, player_to_get_item.inventory)
         if player_to_get_item.inventory.item_names[item_number] == "adrenaline":
             game.serverIO.send_text_to_all_clients(
                 f"but fumbles and doesn't manage to grab {player_to_get_item.name}'s adrenaline shot..."
@@ -162,7 +160,7 @@ class Phone(AbstractItem):
         bullet_number_text = (
             f"{colorama.Fore.BLUE}{bullet_number + 1}{colorama.Style.RESET_ALL}"
         )
-        ominous_text = (f"bullet number ") + bullet_number_text + ("is a")
+        ominous_text = (f"bullet number ") + bullet_number_text + (" is a")
         bullet_type = game.shotgun.magazine_tube[bullet_number].serialize()
 
         player.client.print(f"It says: {ominous_text} {bullet_type}")
@@ -214,8 +212,8 @@ all_items = {
 }
 
 empty_item_art = []
-for _ in range(config.CONFIG["itemArtHeight"]):
-    line = " " * config.CONFIG["itemArtWidth"]
+for _ in range(server_config.CONFIG["itemArtHeight"]):
+    line = " " * server_config.CONFIG["itemArtWidth"]
     empty_item_art.append(line)
 
 

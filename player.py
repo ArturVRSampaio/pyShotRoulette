@@ -1,10 +1,10 @@
 import time
+from random import randrange as rand, choice
 
-import client_connection
-from inventory import Inventory
-from time import sleep
-from random import randrange as rand
 from abc import abstractmethod
+
+import client_connection as client_connection
+from inventory import Inventory
 from client_connection import ClientConnection
 from serverIO import ServerIO
 
@@ -26,7 +26,7 @@ class Player:
         pass
 
     @abstractmethod
-    def decide_item(self, game) -> int:
+    def decide_item(self, game, inventory) -> int:
         pass
 
     @abstractmethod
@@ -37,7 +37,7 @@ class Player:
         action = self.decide_action()
         while action != "shoot" and not game.shotgun.is_empty():
             if action == "use_item":
-                item_number = self.decide_item(game)
+                item_number = self.decide_item(game, self.inventory)
                 self.use_item(item_number, game)
             elif action == "look":
                 game.serverIO.print_items()
@@ -54,7 +54,10 @@ class Player:
         return used_item
 
     def remove_life(self, amount: int):
-        self.life -= amount
+        if self.life - amount < 0:
+            self.life = 0
+        else:
+            self.life -= amount
 
     def set_number(self, number):
         self.number = number
@@ -77,8 +80,8 @@ class HumanPlayer(Player):
         index = int(action)
         return PLAYER_ACTIONS[index - 1]
 
-    def decide_item(self, game) -> int:
-        if self.inventory.item_count() == 0:
+    def decide_item(self, game, inventory) -> int:
+        if inventory.item_count() == 0:
             return False
         item_input = self.client.input("Which item do you want to use(1-4)?\n")
         item_count = int(item_input) - 1
@@ -95,15 +98,15 @@ class HumanPlayer(Player):
 
 
 class IaPlayer(Player):
-    def __init__(self, name: str):
+    def __init__(self, name: str, serverIO: ServerIO, total_players: int):
         super().__init__(name, 'ia', client_connection.MockClientConnection())
+        self.serverIO = serverIO
+        self.total_players = total_players
 
-    def set_server_io(self, serverIo):
-        self.serverIo = serverIo
     def decide_shot(self):
-        self.serverIO.send_text_to_all_clients(f"IA player grabs the shotgun with malicious intent")
-        sleep(1)
-        who = rand(1, 3)
+        self.serverIO.send_text_to_all_clients(f"{self.name} grabs the shotgun with malicious intent")
+        time.sleep(1)
+        who = rand(1, self.total_players + 1)
         self.serverIO.send_text_to_all_clients(f"{who}")
         return who
 
@@ -115,16 +118,15 @@ class IaPlayer(Player):
         if self.inventory.item_count() == 0:
             return "shoot"
         AI_ACTIONS = ["shoot", "use_item"]
-        action = rand(0, len(AI_ACTIONS))
-        return AI_ACTIONS[action]
+        return choice(AI_ACTIONS)
 
-    def decide_item(self, _game) -> int:
+    def decide_item(self, _game, inventory) -> int:
         self.serverIO.send_text_to_all_clients(f"{self.name} looks at the table")
-        if self.inventory.item_count() == 0:
+        if inventory.item_count() == 0:
             return 0
         item_indexes = []
-        for i in range(len(self.inventory.item_names)):
-            if self.inventory.item_names[i] != "empty":
+        for i in range(len(inventory.item_names)):
+            if inventory.item_names[i] != "empty":
                 item_indexes.append(i)
         random_index = rand(0, len(item_indexes))
         self.serverIO.send_text_to_all_clients(f"{self.name} uses item {item_indexes[random_index] + 1}")
@@ -132,7 +134,8 @@ class IaPlayer(Player):
         return item_indexes[random_index]
 
     def decide_other_player(self) -> int:
-        other_players = [1, 2]
-        other_players.remove(self.number)
-        random_index = rand(0, len(other_players))
-        return other_players[random_index]
+        other_players = []
+        for player_number in range(1, self.total_players + 1):
+            if player_number != self.number:
+                other_players.append(player_number)
+        return choice(other_players)

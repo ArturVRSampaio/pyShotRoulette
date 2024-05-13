@@ -1,6 +1,6 @@
 import json
 
-config_file = "config.json"
+config_file = "server_config.json"
 CONFIG = {}
 
 with open(config_file, "r") as f:
@@ -13,3 +13,9 @@ with open(config_file, "r") as f:
         CONFIG["itemArtWidth"] = 20
         CONFIG["itemArtHeight"] = 10
         CONFIG["itemArtFolder"] = "assets/art/items/LR"
+
+    if CONFIG.get("AIPlayers") is None:
+        CONFIG["AIPlayers"] = 0
+    
+    if CONFIG.get("port") is None:
+        CONFIG["port"] = 5000

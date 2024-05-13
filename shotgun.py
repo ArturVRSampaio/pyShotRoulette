@@ -1,4 +1,3 @@
-import time
 import colorama
 from random import randrange as rand, shuffle
 

@@ -1,8 +1,9 @@
-import shutil
 import time
-import art
-import colorama
 from random import shuffle
+
+import art
+import shutil
+import colorama
 
 
 class ServerIO:
@@ -68,5 +69,5 @@ class ServerIO:
 
     def print_un_cuff(self, player) -> None:
         self.send_text_to_all_clients(f"{player.name} struggles to break free from his shackles...")
-        time.sleep(1)
+        time.sleep(2)
         self.send_clear_to_all_clients()

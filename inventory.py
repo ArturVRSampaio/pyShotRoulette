@@ -1,4 +1,4 @@
-import config
+import server_config
 import items
 
 
@@ -37,7 +37,7 @@ class Inventory:
                 inventory_item_lines.append(items.all_items[item].art)
 
         text = ""
-        for i in range(config.CONFIG["itemArtHeight"]):
+        for i in range(server_config.CONFIG["itemArtHeight"]):
             text += " | "
             for item_line in inventory_item_lines:
                 text += item_line[i] + " | "

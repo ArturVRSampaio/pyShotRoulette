@@ -3,6 +3,7 @@ import game
 from threading import Thread
 
 from client_connection import ClientConnection
+from server_config import CONFIG
 
 waiting_players = True
 
@@ -11,7 +12,7 @@ def main():
     global waiting_players
     waiting_players = True
     host = ""
-    port = 5000
+    port = CONFIG["port"]
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     server_socket.settimeout(2)
@@ -33,9 +34,6 @@ def main():
         except:
             print("Failed to connect")
 
-    if len(player_connections) < 2:
-        print("Not enough players to start the game")
-        return
     print("game start")
     game.start(player_connections)
     for player_connection in player_connections:
