@@ -41,5 +41,7 @@ if __name__ == "__main__":
                 print("Server closed connection")
                 break
             case _:
-                raise Exception(f'unexpected server action "{action}"')
+                clear_screen()
+                print(f'unexpected server action "{action}"')
+                break
     input("Press enter to exit")
