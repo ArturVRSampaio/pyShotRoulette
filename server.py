@@ -47,3 +47,4 @@ if __name__ == "__main__":
     input()
     waiting_players = False
     thread.join()
+    input("Press enter to exit")

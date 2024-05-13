@@ -42,3 +42,4 @@ if __name__ == "__main__":
                 break
             case _:
                 raise Exception(f'unexpected server action "{action}"')
+    input("Press enter to exit")
