@@ -1,13 +1,12 @@
 import json
 import socket
-from helpers import clear_screen
+from helpers import clear_screen, read_config
 from mtp import get_message, send_message
 
 
 config_file = "config.json"
-CONFIG = {}
-with open(config_file, "r") as f:
-    CONFIG = json.load(f)
+default_config = {"serverHost": "localhost", "serverPort": 5000}
+CONFIG = read_config("config.json", default_config)
 
 
 if __name__ == "__main__":

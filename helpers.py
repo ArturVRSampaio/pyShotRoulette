@@ -1,7 +1,6 @@
 import os
-import socket
 import sys
-import random
+import json
 
 
 def clear_screen():
@@ -51,3 +50,14 @@ def int2roman(num: int) -> str:
                 num -= i
 
     return roman
+
+
+def read_config(config_file: str, default_config={}) -> dict:
+    try:
+        with open(config_file, "r") as file:
+            return json.load(file)
+    except FileNotFoundError:
+        with open(config_file, "w") as file:
+            CONFIG = default_config
+            json.dump(CONFIG, file, indent=4)
+            return CONFIG
