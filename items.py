@@ -160,7 +160,7 @@ class Phone(AbstractItem):
         bullet_number_text = (
             f"{colorama.Fore.BLUE}{bullet_number + 1}{colorama.Style.RESET_ALL}"
         )
-        ominous_text = (f"bullet number ") + bullet_number_text + (" is a")
+        ominous_text = f"bullet number " + bullet_number_text + " is a"
         bullet_type = game.shotgun.magazine_tube[bullet_number].serialize()
 
         player.client.print(f"It says: {ominous_text} {bullet_type}")

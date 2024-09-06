@@ -120,8 +120,8 @@ class IaPlayer(Player):
             return "use_item"
         if self.inventory.item_count() == 0:
             return "shoot"
-        AI_ACTIONS = ["shoot", "use_item"]
-        return choice(AI_ACTIONS)
+        ai_actions = ["shoot", "use_item"]
+        return choice(ai_actions)
 
     def decide_item(self, _game, inventory) -> int:
         self.serverIO.send_text_to_all_clients(f"{self.name} looks at the table")

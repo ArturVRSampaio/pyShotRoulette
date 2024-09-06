@@ -1,4 +1,3 @@
-import json
 import socket
 from helpers import clear_screen, read_config
 from mtp import get_message, send_message

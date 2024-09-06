@@ -25,7 +25,7 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 
-def int2roman(num: int) -> str:
+def int_to_roman(num: int) -> str:
     num_map = [
         (1000, "M"),
         (900, "CM"),
@@ -58,6 +58,6 @@ def read_config(config_file: str, default_config={}) -> dict:
             return json.load(file)
     except FileNotFoundError:
         with open(config_file, "w") as file:
-            CONFIG = default_config
-            json.dump(CONFIG, file, indent=4)
-            return CONFIG
+            config = default_config
+            json.dump(config, file, indent=4)
+            return config
