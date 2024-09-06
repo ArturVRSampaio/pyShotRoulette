@@ -16,7 +16,7 @@ from server_config import CONFIG
 
 
 class Game:
-    def __init__(self, players: list, serverIO: ServerIO):
+    def __init__(self, players: list, server_io: ServerIO):
         self.round = 1
         self.max_life_round = 2
         self.last_round = len(players) + 1
@@ -24,7 +24,7 @@ class Game:
         for number, player in enumerate(players):
             player.set_number(number + 1)
         self.shotgun = Shotgun()
-        self.serverIO = serverIO
+        self.serverIO = server_io
         self.serverIO.send_clear_to_all_clients()
 
     def reset_player_lives(self, amount):

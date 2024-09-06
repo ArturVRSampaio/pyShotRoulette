@@ -5,7 +5,7 @@ import art
 import shutil
 import colorama
 
-from helpers import int2roman
+from helpers import int_to_roman
 
 
 class ServerIO:
@@ -40,7 +40,7 @@ class ServerIO:
     def print_round(self, round: int, max_round: int) -> None:
         all_rounds_roman = []
         for i in range(1, max_round + 1):
-            all_rounds_roman.append(int2roman(i))
+            all_rounds_roman.append(int_to_roman(i))
         max_str_size = max(map(len, all_rounds_roman))
         rounds_text = ""
         for i in range(0, max_round):
