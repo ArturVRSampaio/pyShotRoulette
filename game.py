@@ -164,8 +164,10 @@ def start(client_connections: list[ClientConnection]):
 
     serverIO = ServerIO(players)
 
-    for _ in range(0, CONFIG["AIPlayers"]):
-        players.append(IaPlayer(fake.name() + "(AI)", serverIO, total_players))
+    for i in range(0, CONFIG["AIPlayers"]):
+        if i==0:
+            players.append(IaPlayer("Dealer (AI)", serverIO, total_players))
+        players.append(IaPlayer("poor " + fake.name() + "(AI)", serverIO, total_players))
 
     game = Game(players, serverIO)
     game.play()
